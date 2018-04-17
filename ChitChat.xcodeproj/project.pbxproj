@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C44CD60208656FA00AA0419 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C44CD5F208656FA00AA0419 /* Message.swift */; };
 		1C904B6A2076AA7C0030F0EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C904B692076AA7C0030F0EB /* AppDelegate.swift */; };
 		1C904B6C2076AA7C0030F0EB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C904B6B2076AA7C0030F0EB /* ViewController.swift */; };
 		1C904B6F2076AA7C0030F0EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C904B6D2076AA7C0030F0EB /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C44CD5F208656FA00AA0419 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		1C904B662076AA7C0030F0EB /* ChitChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChitChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C904B692076AA7C0030F0EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C904B6B2076AA7C0030F0EB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				1C904B692076AA7C0030F0EB /* AppDelegate.swift */,
+				1C44CD5F208656FA00AA0419 /* Message.swift */,
 				1C904B6B2076AA7C0030F0EB /* ViewController.swift */,
 				1C904B6D2076AA7C0030F0EB /* Main.storyboard */,
 				1C904B7B2076B0670030F0EB /* PostTableViewController.swift */,
@@ -140,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1C904B6C2076AA7C0030F0EB /* ViewController.swift in Sources */,
+				1C44CD60208656FA00AA0419 /* Message.swift in Sources */,
 				1C904B7C2076B0670030F0EB /* PostTableViewController.swift in Sources */,
 				1C904B6A2076AA7C0030F0EB /* AppDelegate.swift in Sources */,
 			);

@@ -8,17 +8,79 @@
 
 import UIKit
 
+extension URLSession {
+    //https://stackoverflow.com/questions/26784315/can-i-somehow-do-a-synchronous-http-request-via-nsurlsession-in-swift
+    func synchronousDataTask(with url: URL) -> (Data?, URLResponse?, Error?) {
+        var data: Data?
+        var response: URLResponse?
+        var error: Error?
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        let dataTask = self.dataTask(with: url) {
+            data = $0
+            response = $1
+            error = $2
+            
+            semaphore.signal()
+        }
+        dataTask.resume()
+        
+        _ = semaphore.wait(timeout: .distantFuture)
+        
+        return (data, response, error)
+    }
+}
+
 class PostTableViewController: UITableViewController {
     
-    var posts: [(msg: String, lat: Double, Long: Double)] = [(msg: String, lat: Double, Long: Double)]()
+    var posts: [Message] = [Message]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        fetchPosts()
 
+    }
     
-        //put get request here
-
-      
+    func fetchPosts() {
+        let url = URL(string: "https://www.stepoutnyc.com/chitchat?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")!
+        
+        var data: Data?
+        var response: URLResponse?
+        var error: Error?
+        
+        (data, response, error) = URLSession.shared.synchronousDataTask(with: url)
+        if let error = error {
+            print(error.localizedDescription)
+        }
+            
+            if let httpResponse: HTTPURLResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    if let data = data {
+                        let jsonObject = try! JSONSerialization.jsonObject(with: data)
+                        if let jsonObject = jsonObject as? [String: Any], let messages = jsonObject["messages"] as? [[String: Any]] {
+                            for message in messages {
+                                if let client = message["client"] as? String, let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"], let message = message["message"]
+                                {
+                                    //print("\(client): \(message)")
+                                    let m: Message = Message()
+                                    m.client = client
+                                    m.message = message as? String
+                                    m.like = like as? Int
+                                    m.dislike = dislike as? Int
+                                    self.posts.append(m)
+                                    print("Posts", self.posts.count)
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+            }
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,16 +88,9 @@ class PostTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      
-        
+        print("Posts", posts.count)
         return posts.count
     }
 
@@ -44,8 +99,7 @@ class PostTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         let postInfo = posts[indexPath.row]
-        
-        cell.textLabel?.text = postInfo.msg
+        cell.textLabel?.text = postInfo.message
 
         return cell
     }
