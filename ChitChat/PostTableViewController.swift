@@ -15,6 +15,7 @@ extension URLSession {
         var response: URLResponse?
         var error: Error?
         
+        
         let semaphore = DispatchSemaphore(value: 0)
         
         let dataTask = self.dataTask(with: url) {
@@ -36,16 +37,49 @@ class PostTableViewController: UITableViewController {
     
     var posts: [Message] = [Message]()
     
+    let url = URL(string: "https://www.stepoutnyc.com/chitchat?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         fetchPosts()
+        
 
     }
+    //likeing a post
+    override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
+        
+        var data: Data?
+        var response: URLResponse?
+        var error: Error?
+        
+        let postURL = URL(string: "https://www.stepoutnyc.com/chitchat/like/" + self.posts[editActionsForRowAt.row].id! + "?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")
+        
+        let like = UITableViewRowAction(style: .normal, title: "Like") { action, index in
+            
+            (data, response, error) = URLSession.shared.synchronousDataTask(with: postURL!)
+            
+            
+        }
+        like.backgroundColor = .green
+        
+        let dislike = UITableViewRowAction(style: .normal, title: "Dislike") { action, index in
+            
+            
+            print(self.posts[index.row].message!)
+            
+        }
+        dislike.backgroundColor = .red
+        
+        return [dislike, like]
+    }
     
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    //Fetching posts
     func fetchPosts() {
-        let url = URL(string: "https://www.stepoutnyc.com/chitchat?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")!
         
         var data: Data?
         var response: URLResponse?
@@ -62,7 +96,7 @@ class PostTableViewController: UITableViewController {
                         let jsonObject = try! JSONSerialization.jsonObject(with: data)
                         if let jsonObject = jsonObject as? [String: Any], let messages = jsonObject["messages"] as? [[String: Any]] {
                             for message in messages {
-                                if let client = message["client"] as? String, let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"], let message = message["message"]
+                                if let client = message["client"] as? String, let postID = message["_id"], let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"], let message = message["message"]
                                 {
                                     //print("\(client): \(message)")
                                     let m: Message = Message()
@@ -70,6 +104,7 @@ class PostTableViewController: UITableViewController {
                                     m.message = message as? String
                                     m.like = like as? Int
                                     m.dislike = dislike as? Int
+                                    m.id = postID as? String
                                     self.posts.append(m)
                                     print("Posts", self.posts.count)
                                 }
@@ -93,13 +128,15 @@ class PostTableViewController: UITableViewController {
         print("Posts", posts.count)
         return posts.count
     }
+    
+    
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         let postInfo = posts[indexPath.row]
-        cell.textLabel?.text = postInfo.message
+        cell.textLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
 
         return cell
     }

@@ -13,6 +13,7 @@ class Message: NSObject, Codable  {
     @objc var message: String?
     var lat: String?
     var long: String?
+    var id: String?
     var like: Int?
     var dislike: Int?
 }
