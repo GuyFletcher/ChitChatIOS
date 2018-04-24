@@ -61,11 +61,59 @@
                             <outlet property="delegate" destination="kEw-lw-hSs" id="irt-0K-VRy"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Neg-Fz-WuQ"/>
+                    <navigationItem key="navigationItem" id="Neg-Fz-WuQ">
+                        <barButtonItem key="rightBarButtonItem" title="Write Message" id="RV7-Wj-CaU">
+                            <connections>
+                                <segue destination="DvM-Le-iZR" kind="show" id="wai-0R-NYy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qK3-2q-Hnt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-105" y="95"/>
+        </scene>
+        <!--Post View Controller-->
+        <scene sceneID="qi1-rX-NPf">
+            <objects>
+                <viewController id="DvM-Le-iZR" customClass="PostViewController" customModule="ChitChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ypj-sn-qKA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o4C-uk-AHr">
+                                <rect key="frame" x="139" y="265" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WtW-R9-ph6">
+                                <rect key="frame" x="172" y="457" width="31" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Post"/>
+                                <connections>
+                                    <action selector="postMes:" destination="DvM-Le-iZR" eventType="touchUpInside" id="o0Q-5e-AZS"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Message" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ooe-a4-WVe">
+                                <rect key="frame" x="153" y="236" width="69" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="3ju-vi-ie7"/>
+                    </view>
+                    <connections>
+                        <outlet property="mesText" destination="o4C-uk-AHr" id="oLI-Oz-eve"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ec4-gT-cIR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-106" y="824"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="dsD-zg-kVc">

@@ -105,8 +105,10 @@ class PostTableViewController: UITableViewController {
                                     m.like = like as? Int
                                     m.dislike = dislike as? Int
                                     m.id = postID as? String
+                                    //m.long = latLong[1] as? String
+                                    //m.lat = latLong[0] as? String
+                                    
                                     self.posts.append(m)
-                                    print("Posts", self.posts.count)
                                 }
                             }
                             
@@ -139,8 +141,9 @@ class PostTableViewController: UITableViewController {
         cell.textLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
 
         return cell
-    }
- 
+    }    
+    
+    
 
     /*
     // Override to support conditional editing of the table view.

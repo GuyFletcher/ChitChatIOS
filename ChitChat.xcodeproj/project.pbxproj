@@ -14,6 +14,7 @@
 		1C904B712076AA7C0030F0EB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1C904B702076AA7C0030F0EB /* Assets.xcassets */; };
 		1C904B742076AA7C0030F0EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C904B722076AA7C0030F0EB /* LaunchScreen.storyboard */; };
 		1C904B7C2076B0670030F0EB /* PostTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C904B7B2076B0670030F0EB /* PostTableViewController.swift */; };
+		1CFCA10D208F91BF0031D8CC /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFCA10C208F91BF0031D8CC /* PostViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		1C904B732076AA7C0030F0EB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1C904B752076AA7C0030F0EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1C904B7B2076B0670030F0EB /* PostTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewController.swift; sourceTree = "<group>"; };
+		1CFCA10C208F91BF0031D8CC /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +67,7 @@
 				1C904B7B2076B0670030F0EB /* PostTableViewController.swift */,
 				1C904B702076AA7C0030F0EB /* Assets.xcassets */,
 				1C904B722076AA7C0030F0EB /* LaunchScreen.storyboard */,
+				1CFCA10C208F91BF0031D8CC /* PostViewController.swift */,
 				1C904B752076AA7C0030F0EB /* Info.plist */,
 			);
 			path = ChitChat;
@@ -146,6 +149,7 @@
 				1C44CD60208656FA00AA0419 /* Message.swift in Sources */,
 				1C904B7C2076B0670030F0EB /* PostTableViewController.swift in Sources */,
 				1C904B6A2076AA7C0030F0EB /* AppDelegate.swift in Sources */,
+				1CFCA10D208F91BF0031D8CC /* PostViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
