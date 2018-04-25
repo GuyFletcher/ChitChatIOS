@@ -32,16 +32,10 @@ class PostViewController: UIViewController {
         var request = URLRequest(url: postURL!)
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        
-        let parameters = ["message": mesText.text!] //, "loc":["10","10"]
-        
-        let locString = "&loc=[\(lat),\(long)]"
-        let postString = "message=" + mesText.text! + "&loc=[10,10]"
+
+        let postString = "message=" + mesText.text! + "&lat=\(lat)&long=\(long)"
         request.httpBody = postString.data(using: .utf8)
-        
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions()) else { return }
-        print(httpBody)
-        //request.httpBody = httpBody
+
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
