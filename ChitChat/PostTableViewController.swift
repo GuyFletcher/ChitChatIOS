@@ -162,10 +162,24 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
 
         let postInfo = posts[indexPath.row]
         cell.textLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
-        
 
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: postInfo.message!, options: [], range: NSRange(location: 0, length: (postInfo.message?.utf16.count)!))
+        
+        for match in matches {
+            guard let range = Range(match.range, in: postInfo.message!) else { continue }
+            let url = postInfo.message![range]
+            print(url)
+        }
+        
         return cell
     }    
+    
+    func getDataFromUrl(url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            completion(data, response, error)
+            }.resume()
+    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
