@@ -178,23 +178,10 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! PostTableViewCell
-        var url:Any
         let postInfo = posts[indexPath.row]
         cell.contentLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
 
-        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-        let matches = detector.matches(in: postInfo.message!, options: [], range: NSRange(location: 0, length: (postInfo.message?.utf16.count)!))
         
-        for match in matches {
-            guard let range = Range(match.range, in: postInfo.message!) else { continue }
-            url = URL(string: String(postInfo.message![range]))!
-            print(url)
-            let pictureData = NSData(contentsOf: url as! URL)
-            if((pictureData) != nil) {
-                let img = UIImage(data: pictureData! as Data)
-                cell.postImage.image = img
-            }
-        }
         
         
         

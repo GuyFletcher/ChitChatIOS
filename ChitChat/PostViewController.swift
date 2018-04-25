@@ -33,7 +33,7 @@ class PostViewController: UIViewController {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
 
-        let postString = "message=" + mesText.text! + "&lat=\(lat!)&long=\(long!)"
+        let postString = "message=" + mesText.text! + "&lat=\(lat!)&lon=\(long!)"
         request.httpBody = postString.data(using: .utf8)
 
         
