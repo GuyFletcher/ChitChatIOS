@@ -185,14 +185,16 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let matches = detector.matches(in: postInfo.message!, options: [], range: NSRange(location: 0, length: (postInfo.message?.utf16.count)!))
         
-//        for match in matches {
-//            guard let range = Range(match.range, in: postInfo.message!) else { continue }
-//            url = URL(string: String(postInfo.message![range]))!
-//            let pictureData = NSData(contentsOf: url as! URL)
-//            let img = UIImage(data: pictureData! as Data)
-//            cell.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-//            cell.imageView?.image = img
-//        }
+        for match in matches {
+            guard let range = Range(match.range, in: postInfo.message!) else { continue }
+            url = URL(string: String(postInfo.message![range]))!
+            print(url)
+            let pictureData = NSData(contentsOf: url as! URL)
+            if((pictureData) != nil) {
+                let img = UIImage(data: pictureData! as Data)
+                cell.postImage.image = img
+            }
+        }
         
         
         

@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,22 +44,30 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="163.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="contentLabel" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixU-MF-3Q3">
-                                            <rect key="frame" x="24" y="11" width="327" height="142"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="contentLabel" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixU-MF-3Q3">
+                                            <rect key="frame" x="177" y="11" width="174" height="142"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lUE-tD-0Az">
+                                            <rect key="frame" x="10" y="0.0" width="150" height="128"/>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="ixU-MF-3Q3" firstAttribute="leading" secondItem="Qrj-Tg-Tic" secondAttribute="leadingMargin" constant="8" id="J8h-jX-KLG"/>
+                                        <constraint firstItem="lUE-tD-0Az" firstAttribute="width" secondItem="Qrj-Tg-Tic" secondAttribute="width" multiplier="0.4" id="000-is-nlN"/>
+                                        <constraint firstItem="lUE-tD-0Az" firstAttribute="leading" secondItem="ixU-MF-3Q3" secondAttribute="leading" id="CSp-AO-fhh"/>
+                                        <constraint firstItem="lUE-tD-0Az" firstAttribute="top" secondItem="Qrj-Tg-Tic" secondAttribute="top" id="Pfq-bc-yqv"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="lUE-tD-0Az" secondAttribute="bottom" constant="25" id="U2F-WJ-0sl"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ixU-MF-3Q3" secondAttribute="trailing" constant="8" id="XD8-SB-ldq"/>
                                         <constraint firstItem="ixU-MF-3Q3" firstAttribute="top" secondItem="Qrj-Tg-Tic" secondAttribute="topMargin" id="fgH-of-W41"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="ixU-MF-3Q3" secondAttribute="bottom" id="mYJ-HI-36x"/>
+                                        <constraint firstItem="lUE-tD-0Az" firstAttribute="leading" secondItem="Qrj-Tg-Tic" secondAttribute="leading" constant="10" id="pjm-dk-BBv"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="contentLabel" destination="ixU-MF-3Q3" id="1qj-IE-DpP"/>
+                                    <outlet property="postImage" destination="lUE-tD-0Az" id="8QU-de-wsy"/>
                                     <segue destination="H4J-dd-Ieo" kind="show" identifier="postInfo" id="ECW-K2-L9g"/>
                                 </connections>
                             </tableViewCell>
