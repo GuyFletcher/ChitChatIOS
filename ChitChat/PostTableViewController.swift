@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 extension URLSession {
     //https://stackoverflow.com/questions/26784315/can-i-somehow-do-a-synchronous-http-request-via-nsurlsession-in-swift
@@ -33,19 +34,44 @@ extension URLSession {
     }
 }
 
-class PostTableViewController: UITableViewController {
+class PostTableViewController: UITableViewController, CLLocationManagerDelegate {
+    
+    let locationManager = CLLocationManager()
     
     var posts: [Message] = [Message]()
+    
+    var myLat: String?
+    var myLong: String?
     
     let url = URL(string: "https://www.stepoutnyc.com/chitchat?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+        
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
         fetchPosts()
         
 
     }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        myLat = locValue.latitude
+        myLong = locValue.longitude
+    }
+    
     //likeing a post
     override func tableView(_ tableView: UITableView, editActionsForRowAt: IndexPath) -> [UITableViewRowAction]? {
         
@@ -96,7 +122,7 @@ class PostTableViewController: UITableViewController {
                         let jsonObject = try! JSONSerialization.jsonObject(with: data)
                         if let jsonObject = jsonObject as? [String: Any], let messages = jsonObject["messages"] as? [[String: Any]] {
                             for message in messages {
-                                if let client = message["client"] as? String, let postID = message["_id"], let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"], let message = message["message"]
+                                if let client = message["client"] as? String, let postID = message["_id"], let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"] as? NSArray, let message = message["message"]
                                 {
                                     //print("\(client): \(message)")
                                     let m: Message = Message()
@@ -105,8 +131,8 @@ class PostTableViewController: UITableViewController {
                                     m.like = like as? Int
                                     m.dislike = dislike as? Int
                                     m.id = postID as? String
-                                    //m.long = latLong[1] as? String
-                                    //m.lat = latLong[0] as? String
+                                    m.long = latLong[0] as? String
+                                    m.lat = latLong[1] as? String
                                     
                                     self.posts.append(m)
                                 }
@@ -131,19 +157,33 @@ class PostTableViewController: UITableViewController {
         return posts.count
     }
     
-    
-
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
         let postInfo = posts[indexPath.row]
         cell.textLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
+        
 
         return cell
     }    
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if segue.identifier == "postInfo" {
+            if let vc = segue.destination as? ViewController {
+                if let row = tableView.indexPathForSelectedRow?.row {
+                    vc.message = posts[row]
+                }
+            }
+        }
+        else if segue.identifier == "writePost" {
+            if let pvc = segue.destination as? PostViewController {
+                pvc.lat = myLat
+                pvc.long = myLong
+            }
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.
