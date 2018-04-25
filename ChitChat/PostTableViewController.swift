@@ -62,8 +62,15 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         
         fetchPosts()
         
+        let refreshControl = UIRefreshControl()
+        
+        refreshControl.addTarget(self, action:  #selector(fetchPosts), for: UIControlEvents.valueChanged)
+        self.refreshControl = refreshControl
+        
 
     }
+    
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
@@ -105,12 +112,13 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         return true
     }
     //Fetching posts
-    func fetchPosts() {
+    @objc func fetchPosts() {
         
         var data: Data?
         var response: URLResponse?
         var error: Error?
-        
+        self.posts.removeAll()
+
         (data, response, error) = URLSession.shared.synchronousDataTask(with: url)
         if let error = error {
             print(error.localizedDescription)
@@ -133,7 +141,6 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                                     m.id = postID as? String
                                     m.long = latLong[0] as? String
                                     m.lat = latLong[1] as? String
-                                    
                                     self.posts.append(m)
                                 }
                             }
@@ -144,6 +151,9 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                     
                 }
             }
+        
+        tableView.reloadData()
+        refreshControl?.endRefreshing()
     }
 
     override func didReceiveMemoryWarning() {
@@ -159,7 +169,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        var url:Any
         let postInfo = posts[indexPath.row]
         cell.textLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
 
@@ -168,9 +178,14 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         
         for match in matches {
             guard let range = Range(match.range, in: postInfo.message!) else { continue }
-            let url = postInfo.message![range]
-            print(url)
+            url = URL(string: String(postInfo.message![range]))!
+            let pictureData = NSData(contentsOf: url as! URL)
+            let img = UIImage(data: pictureData! as Data)
+            cell.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+            cell.imageView?.image = img
         }
+        
+        
         
         return cell
     }    
@@ -180,6 +195,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
             completion(data, response, error)
             }.resume()
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.

@@ -37,11 +37,11 @@ class PostViewController: UIViewController {
         
         let locString = "&loc=[\(lat),\(long)]"
         let postString = "message=" + mesText.text! + "&loc=[10,10]"
-        //request.httpBody = postString.data(using: .utf8)
+        request.httpBody = postString.data(using: .utf8)
         
         guard let httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: JSONSerialization.WritingOptions()) else { return }
         print(httpBody)
-        request.httpBody = httpBody
+        //request.httpBody = httpBody
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
