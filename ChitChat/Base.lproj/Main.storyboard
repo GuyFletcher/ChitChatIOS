@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,19 +31,34 @@
         <scene sceneID="yZH-Ur-016">
             <objects>
                 <tableViewController id="kEw-lw-hSs" customClass="PostTableViewController" customModule="ChitChat" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="3KI-BF-Sj2">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="3KI-BF-Sj2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" rowHeight="143" id="z8K-fx-Xgk">
-                                <rect key="frame" x="0.0" y="28" width="375" height="143"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" rowHeight="164" id="z8K-fx-Xgk" customClass="PostTableViewCell" customModule="ChitChat" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="164"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z8K-fx-Xgk" id="Qrj-Tg-Tic">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="142.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="163.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="contentLabel" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixU-MF-3Q3">
+                                            <rect key="frame" x="24" y="11" width="327" height="142"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="ixU-MF-3Q3" firstAttribute="leading" secondItem="Qrj-Tg-Tic" secondAttribute="leadingMargin" constant="8" id="J8h-jX-KLG"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="ixU-MF-3Q3" secondAttribute="trailing" constant="8" id="XD8-SB-ldq"/>
+                                        <constraint firstItem="ixU-MF-3Q3" firstAttribute="top" secondItem="Qrj-Tg-Tic" secondAttribute="topMargin" id="fgH-of-W41"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="ixU-MF-3Q3" secondAttribute="bottom" id="mYJ-HI-36x"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="contentLabel" destination="ixU-MF-3Q3" id="1qj-IE-DpP"/>
                                     <segue destination="H4J-dd-Ieo" kind="show" identifier="postInfo" id="ECW-K2-L9g"/>
                                 </connections>
                             </tableViewCell>

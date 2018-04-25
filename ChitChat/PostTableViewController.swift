@@ -67,6 +67,8 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         refreshControl.addTarget(self, action:  #selector(fetchPosts), for: UIControlEvents.valueChanged)
         self.refreshControl = refreshControl
         
+        self.tableView.rowHeight = UITableViewAutomaticDimension
+        self.tableView.estimatedRowHeight = 140
 
     }
     
@@ -107,6 +109,13 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         return [dislike, like]
     }
     
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -168,22 +177,22 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! PostTableViewCell
         var url:Any
         let postInfo = posts[indexPath.row]
-        cell.textLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
+        cell.contentLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
 
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let matches = detector.matches(in: postInfo.message!, options: [], range: NSRange(location: 0, length: (postInfo.message?.utf16.count)!))
         
-        for match in matches {
-            guard let range = Range(match.range, in: postInfo.message!) else { continue }
-            url = URL(string: String(postInfo.message![range]))!
-            let pictureData = NSData(contentsOf: url as! URL)
-            let img = UIImage(data: pictureData! as Data)
-            cell.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-            cell.imageView?.image = img
-        }
+//        for match in matches {
+//            guard let range = Range(match.range, in: postInfo.message!) else { continue }
+//            url = URL(string: String(postInfo.message![range]))!
+//            let pictureData = NSData(contentsOf: url as! URL)
+//            let img = UIImage(data: pictureData! as Data)
+//            cell.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+//            cell.imageView?.image = img
+//        }
         
         
         
