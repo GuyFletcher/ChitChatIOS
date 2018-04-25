@@ -40,8 +40,8 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     
     var posts: [Message] = [Message]()
     
-    var myLat: String?
-    var myLong: String?
+    var myLat: Double?
+    var myLong: Double?
     
     let url = URL(string: "https://www.stepoutnyc.com/chitchat?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")!
     
