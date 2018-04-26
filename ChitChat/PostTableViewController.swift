@@ -66,7 +66,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
             locationManager.startUpdatingLocation()
         }
         
-        fetchPosts()
+//        fetchPosts()
         
         let refreshControl = UIRefreshControl()
         
