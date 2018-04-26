@@ -14,13 +14,14 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var postImage: UIImageView!
     
+    @IBOutlet weak var likes: UILabel!
+    @IBOutlet weak var dislikes: UILabel!
+    
     var message: Message = Message()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        print("\n\n\n",message.lat!)
-        
+        // Do any additional setup after loading the view, typically from a nib.        
         
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         let matches = detector.matches(in: message.message!, options: [], range: NSRange(location: 0, length: (message.message?.utf16.count)!))
@@ -56,6 +57,9 @@ class ViewController: UIViewController {
             
            
         }
+        
+        likes.text = "Likes: " + String(describing: message.like!)
+        dislikes.text = "Dislikes: " + String(describing: message.dislike!)
         
     }
 

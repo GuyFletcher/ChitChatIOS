@@ -40,6 +40,8 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     
     var posts: [Message] = [Message]()
     
+    var likedPosts = [String:Bool]()
+    
     var myLat: Double?
     var myLong: Double?
     
@@ -88,25 +90,45 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         var response: URLResponse?
         var error: Error?
         
-        let postURL = URL(string: "https://www.stepoutnyc.com/chitchat/like/" + self.posts[editActionsForRowAt.row].id! + "?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")
+        let ID = self.posts[editActionsForRowAt.row].id!
         
-        let like = UITableViewRowAction(style: .normal, title: "Like") { action, index in
+        let isLiked = likedPosts[ID] != nil
+        
+        if isLiked  {
+            let like = UITableViewRowAction(style: .normal, title: "Likes: " + String(self.posts[editActionsForRowAt.row].like!)) { action, index in
+                
+                
+            }
+            like.backgroundColor = .gray
             
-            (data, response, error) = URLSession.shared.synchronousDataTask(with: postURL!)
-            
-            
+            let dislike = UITableViewRowAction(style: .normal, title: "Dislikes: " + String(self.posts[editActionsForRowAt.row].dislike!)) { action, index in
+                
+            }
+            dislike.backgroundColor = .gray
+            return [dislike, like]
         }
-        like.backgroundColor = .green
-        
-        let dislike = UITableViewRowAction(style: .normal, title: "Dislike") { action, index in
+        else {
+            let like = UITableViewRowAction(style: .normal, title: "Likes: " + String(self.posts[editActionsForRowAt.row].like!)) { action, index in
+                let postURL = URL(string: "https://www.stepoutnyc.com/chitchat/like/" + ID + "?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")
+                
+                (data, response, error) = URLSession.shared.synchronousDataTask(with: postURL!)
+                
+                self.posts[editActionsForRowAt.row].like! += 1
+                self.likedPosts[ID] = true
+            }
+            like.backgroundColor = .green
             
-            
-            print(self.posts[index.row].message!)
-            
+            let dislike = UITableViewRowAction(style: .normal, title: "Dislikes: " + String(self.posts[editActionsForRowAt.row].dislike!)) { action, index in
+                let postURL = URL(string: "https://www.stepoutnyc.com/chitchat/dislike/" + ID + "?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")
+                
+                (data, response, error) = URLSession.shared.synchronousDataTask(with: postURL!)
+                self.posts[editActionsForRowAt.row].dislike! += 1
+                self.likedPosts[ID] = true
+            }
+            dislike.backgroundColor = .red
+            return [dislike, like]
         }
-        dislike.backgroundColor = .red
-        
-        return [dislike, like]
+   
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -172,14 +194,17 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("Posts", posts.count)
+        //print("Posts", posts.count)
         return posts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! PostTableViewCell
         let postInfo = posts[indexPath.row]
-        cell.contentLabel?.text = postInfo.message! + "Likes: " + String(describing: postInfo.like)
+        if let message = postInfo.message {
+            cell.contentLabel?.text = message
+        }
+        
 
         
         
