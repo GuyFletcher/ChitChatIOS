@@ -53,6 +53,13 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lUE-tD-0Az">
                                             <rect key="frame" x="10" y="0.0" width="150" height="128"/>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTY-Jg-adc">
+                                            <rect key="frame" x="317" y="0.0" width="36" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="lUE-tD-0Az" firstAttribute="width" secondItem="Qrj-Tg-Tic" secondAttribute="width" multiplier="0.4" id="000-is-nlN"/>
@@ -67,6 +74,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="contentLabel" destination="ixU-MF-3Q3" id="1qj-IE-DpP"/>
+                                    <outlet property="dateLabel" destination="DTY-Jg-adc" id="L90-mm-f6a"/>
                                     <outlet property="postImage" destination="lUE-tD-0Az" id="8QU-de-wsy"/>
                                     <segue destination="H4J-dd-Ieo" kind="show" identifier="postInfo" id="ECW-K2-L9g"/>
                                 </connections>

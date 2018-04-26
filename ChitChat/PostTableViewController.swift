@@ -169,7 +169,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                         let jsonObject = try! JSONSerialization.jsonObject(with: data)
                         if let jsonObject = jsonObject as? [String: Any], let messages = jsonObject["messages"] as? [[String: Any]] {
                             for message in messages {
-                                if let client = message["client"] as? String, let postID = message["_id"], let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"] as? NSArray, let message = message["message"]
+                                if let client = message["client"] as? String, let postID = message["_id"], let date = message["date"], let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"] as? NSArray, let message = message["message"]
                                 {
                                     //print("\(client): \(message)")
                                     let m: Message = Message()
@@ -180,6 +180,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                                     m.id = postID as? String
                                     m.long = latLong[0] as? String
                                     m.lat = latLong[1] as? String
+                                    m.date = date as? String
                                     self.posts.append(m)
                                 }
                             }
@@ -211,6 +212,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         let postInfo = posts[indexPath.row]
         if let message = postInfo.message {
             cell.contentLabel?.text = message
+            cell.dateLabel?.text = postInfo.date
         }
         
 

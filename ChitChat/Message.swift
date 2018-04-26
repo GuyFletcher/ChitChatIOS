@@ -16,4 +16,5 @@ class Message: NSObject, Codable  {
     var id: String?
     var like: Int?
     var dislike: Int?
+    var date: String?
 }
