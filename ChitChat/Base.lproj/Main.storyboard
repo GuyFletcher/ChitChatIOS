@@ -53,17 +53,17 @@
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lUE-tD-0Az">
                                             <rect key="frame" x="10" y="0.0" width="150" height="128"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTY-Jg-adc">
-                                            <rect key="frame" x="317" y="0.0" width="36" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTY-Jg-adc">
+                                            <rect key="frame" x="177" y="0.0" width="182" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" red="0.50339789184860706" green="0.51303432642487046" blue="0.49467855153328044" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="lUE-tD-0Az" firstAttribute="width" secondItem="Qrj-Tg-Tic" secondAttribute="width" multiplier="0.4" id="000-is-nlN"/>
                                         <constraint firstItem="lUE-tD-0Az" firstAttribute="leading" secondItem="ixU-MF-3Q3" secondAttribute="leading" id="CSp-AO-fhh"/>
+                                        <constraint firstItem="ixU-MF-3Q3" firstAttribute="top" secondItem="DTY-Jg-adc" secondAttribute="bottom" constant="-10" id="D2G-Mu-0QV"/>
                                         <constraint firstItem="lUE-tD-0Az" firstAttribute="top" secondItem="Qrj-Tg-Tic" secondAttribute="top" id="Pfq-bc-yqv"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="lUE-tD-0Az" secondAttribute="bottom" constant="25" id="U2F-WJ-0sl"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="ixU-MF-3Q3" secondAttribute="trailing" constant="8" id="XD8-SB-ldq"/>

@@ -10,7 +10,8 @@ import UIKit
 import MapKit
 
 extension URLSession {
-    //https://stackoverflow.com/questions/26784315/can-i-somehow-do-a-synchronous-http-request-via-nsurlsession-in-swift
+    //Code taken from https://stackoverflow.com/questions/26784315/can-i-somehow-do-a-synchronous-http-request-via-nsurlsession-in-swift
+    //allows for asyncronoucity when pulling messages from server
     func synchronousDataTask(with url: URL) -> (Data?, URLResponse?, Error?) {
         var data: Data?
         var response: URLResponse?
@@ -52,7 +53,6 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         
         //Load from user defaults
         likedPosts = (UserDefaults.standard.value(forKey: "likedPosts") as? [String : Bool]) ?? [String : Bool]()
-        print(likedPosts)
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -96,11 +96,12 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         
         let ID = self.posts[editActionsForRowAt.row].id!
         
+        // If post is liked, sets it to true
         let isLiked = likedPosts[ID] != nil
         
         if isLiked  {
+            // Creates gray buttons for like/dislike - indicates already liked posts
             let like = UITableViewRowAction(style: .normal, title: "Likes: " + String(self.posts[editActionsForRowAt.row].like!)) { action, index in
-                
                 
             }
             like.backgroundColor = .gray
@@ -112,6 +113,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
             return [dislike, like]
         }
         else {
+            // Creates like/dislike buttons seen when swiping left, if pressed adds like/dislike as appropriate
             let like = UITableViewRowAction(style: .normal, title: "Likes: " + String(self.posts[editActionsForRowAt.row].like!)) { action, index in
                 let postURL = URL(string: "https://www.stepoutnyc.com/chitchat/like/" + ID + "?client=fletcher.hart@mymail.champlain.edu&key=3f163a05-fb2c-411e-a6cf-a193e68d8fcb")
                 
@@ -162,7 +164,8 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         if let error = error {
             print(error.localizedDescription)
         }
-            
+        
+            //retrieves from server asyncronously and assigns data to Message object
             if let httpResponse: HTTPURLResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode == 200 {
                     if let data = data {
@@ -171,7 +174,6 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                             for message in messages {
                                 if let client = message["client"] as? String, let postID = message["_id"], let date = message["date"], let like = message["likes"], let dislike = message["dislikes"], let latLong = message["loc"] as? NSArray, let message = message["message"]
                                 {
-                                    //print("\(client): \(message)")
                                     let m: Message = Message()
                                     m.client = client
                                     m.message = message as? String
@@ -216,6 +218,22 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         }
         
 
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let matches = detector.matches(in: postInfo.message!, options: [], range: NSRange(location: 0, length: (postInfo.message?.utf16.count)!))
+        var url: Any
+        for match in matches {
+            guard let range = Range(match.range, in: postInfo.message!) else { continue }
+            url = URL(string: String(postInfo.message![range]))!
+            print(url)
+            let pictureData = NSData(contentsOf: url as! URL)
+            print(pictureData)
+            if((pictureData) != nil) {
+                let img = UIImage(data: pictureData! as Data)
+                cell.postImage.image = img
+                cell.postImage.contentMode = UIViewContentMode.scaleAspectFit
+            }
+        }
+        
         
         return cell
     }    
@@ -248,50 +266,5 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     override func viewWillDisappear(_ animated: Bool) {
         UserDefaults.standard.setValue(likedPosts, forKey: "likedPosts")
     }
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

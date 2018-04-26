@@ -33,7 +33,13 @@ class PostViewController: UIViewController {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
 
-        let postString = "message=" + mesText.text! + "&lat=\(lat!)&lon=\(long!)"
+        // Construct message with location if available
+        var postString = "message=" + mesText.text!
+        if let latExist = lat, let longExist = long {
+             postString += "&lat=\(latExist)&lon=\(longExist)"
+        }
+        
+        
         request.httpBody = postString.data(using: .utf8)
 
         
