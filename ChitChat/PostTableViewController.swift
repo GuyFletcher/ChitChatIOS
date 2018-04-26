@@ -50,6 +50,10 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Load from user defaults
+        likedPosts = (UserDefaults.standard.value(forKey: "likedPosts") as? [String : Bool]) ?? [String : Bool]()
+        print(likedPosts)
+        
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
         
@@ -115,6 +119,7 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                 
                 self.posts[editActionsForRowAt.row].like! += 1
                 self.likedPosts[ID] = true
+                UserDefaults.standard.setValue(self.likedPosts, forKey: "likedPosts")
             }
             like.backgroundColor = .green
             
@@ -124,8 +129,11 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                 (data, response, error) = URLSession.shared.synchronousDataTask(with: postURL!)
                 self.posts[editActionsForRowAt.row].dislike! += 1
                 self.likedPosts[ID] = true
+                UserDefaults.standard.setValue(self.likedPosts, forKey: "likedPosts")
             }
             dislike.backgroundColor = .red
+            
+
             return [dislike, like]
         }
    
@@ -207,9 +215,6 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
         
 
         
-        
-        
-        
         return cell
     }    
     
@@ -236,6 +241,10 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
                 pvc.long = myLong
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        UserDefaults.standard.setValue(likedPosts, forKey: "likedPosts")
     }
 
     /*
