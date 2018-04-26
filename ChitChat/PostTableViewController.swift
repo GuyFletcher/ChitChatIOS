@@ -78,6 +78,10 @@ class PostTableViewController: UITableViewController, CLLocationManagerDelegate 
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        fetchPosts()
+    }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

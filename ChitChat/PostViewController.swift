@@ -59,6 +59,7 @@ class PostViewController: UIViewController {
             print("responseString = \(String(describing: responseString))")
         }
         task.resume()
+        _ = navigationController?.popToRootViewController(animated: true)
     }
     
     /*
